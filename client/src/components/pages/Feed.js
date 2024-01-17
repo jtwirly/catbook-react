@@ -37,7 +37,7 @@ const Feed = (props) => {
       />
     ));
   } else {
-    storiesList = <div>No stories!</div>;
+    storiesList = <div>No food listed!</div>;
   }
   return (
     <>
