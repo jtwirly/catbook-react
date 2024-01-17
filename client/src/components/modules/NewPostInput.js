@@ -81,7 +81,7 @@ const NewStory = (props) => {
     });
   };
 
-  return <NewPostInput defaultText="New Story" onSubmit={addStory} />;
+  return <NewPostInput defaultText="New Food Offered (e.g. free sandwiches in 32-062 til 8pm, or I can cook weekly for Tang residents for a fee)" onSubmit={addStory} />;
 };
 
 /**

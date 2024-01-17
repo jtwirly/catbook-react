@@ -37,16 +37,16 @@ const Profile = (props) => {
         <div className="Profile-subContainer u-textCenter">
           <h4 className="Profile-subTitle">About Me</h4>
           <div id="profile-description">
-            I am really allergic to cats i don't know why i have a catbook
+            I like food.
           </div>
         </div>
         <div className="Profile-subContainer u-textCenter">
-          <h4 className="Profile-subTitle">Cat Happiness</h4>
+          <h4 className="Profile-subTitle">Free Food I've Contributed</h4>
           <CatHappiness catHappiness={catHappiness} />
         </div>
         <div className="Profile-subContainer u-textCenter">
-          <h4 className="Profile-subTitle">My Favorite Type of Cat</h4>
-          <div id="favorite-cat">corgi</div>
+          <h4 className="Profile-subTitle">My Favorite Type of Food</h4>
+          <div id="favorite-cat">Hot diggity dogs</div>
         </div>
       </div>
     </>
