@@ -22,9 +22,6 @@ const NavBar = ({ userId, handleLogin, handleLogout }) => {
         ) : (
           <GoogleLogin onSuccess={handleLogin} onError={(err) => console.log(err)} />
         )}
-        <h1>Good luck on your project :)</h1>
-        <h2>What you need to change in this skeleton</h2>
-        {/* ... rest of your component */}
       </div>
       <nav className="NavBar-container">
         <div className="NavBar-title u-inlineBlock">FeedMe</div>

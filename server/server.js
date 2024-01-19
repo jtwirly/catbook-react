@@ -18,9 +18,11 @@
 const validator = require("./validator");
 validator.checkSetup();
 
+//allow us to use process.ENV
+require("dotenv").config();
+
 //import libraries needed for the webserver to work!
 const http = require("http");
-const bodyParser = require("body-parser"); // allow node to automatically parse POST body requests as JSON
 const express = require("express"); // backend framework for our node server.
 const session = require("express-session"); // library that stores info about each connected user
 const mongoose = require("mongoose"); // library to connect to MongoDB
@@ -33,11 +35,13 @@ const auth = require("./auth");
 const socketManager = require("./server-socket");
 
 // Server configuration below
-// TODO change connection URL after setting up your own database
-const mongoConnectionURL =
-  "mongodb+srv://hello:world@cluster0.eik69ve.mongodb.net/?retryWrites=true&w=majority";
+// TODO change connection URL after setting up your team database
+const mongoConnectionURL = process.env.MONGO_SRV;
 // TODO change database name to the name you chose
 const databaseName = "Cluster0";
+
+// mongoose 7 warning
+mongoose.set("strictQuery", false);
 
 // connect to mongodb
 mongoose
@@ -53,13 +57,13 @@ mongoose
 const app = express();
 app.use(validator.checkRoutes);
 
-// set up bodyParser, which allows us to process POST requests
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
+// allow us to process POST requests
+app.use(express.json());
 
 // set up a session, which will persist login data across requests
 app.use(
   session({
+    // TODO: add a SESSION_SECRET string in your .env file, and replace the secret with process.env.SESSION_SECRET
     secret: "session-secret",
     resave: false,
     saveUninitialized: false,
