@@ -1,50 +1,48 @@
 import React from "react";
 import { Link } from "@reach/router";
-import GoogleLogin, { GoogleLogout } from "react-google-login";
+import { GoogleOAuthProvider, GoogleLogin, googleLogout } from "@react-oauth/google";
 
 import "./NavBar.css";
 
-// This identifies your web application to Google's authentication service
 const GOOGLE_CLIENT_ID = "645648346214-0t936jmbg6c4pbho8ns1u9iaja2oj4kg.apps.googleusercontent.com";
 
-/**
- * The navigation bar at the top of all pages. Takes no props.
- */
-const NavBar = (props) => {
+const NavBar = ({ userId, handleLogin, handleLogout }) => {
   return (
-    <nav className="NavBar-container">
-      <div className="NavBar-title u-inlineBlock">FeedMe</div>
-      <div className="NavBar-linkContainer u-inlineBlock">
-        <Link to="/" className="NavBar-link">
-          Home
-        </Link>
-        {props.userId && (
-          <Link to={`/profile/${props.userId}`} className="NavBar-link">
-            Profile
-          </Link>
-        )}
-        <Link to="/chat/" className="NavBar-link">
-          Chat
-        </Link>
-        {props.userId ? (
-          <GoogleLogout
-            clientId={GOOGLE_CLIENT_ID}
-            buttonText="Logout"
-            onLogoutSuccess={props.handleLogout}
-            onFailure={(err) => console.log(err)}
-            className="NavBar-link NavBar-login"
-          />
+    <GoogleOAuthProvider clientId={GOOGLE_CLIENT_ID}>
+      <div>
+        {userId ? (
+          <button
+            onClick={() => {
+              googleLogout();
+              handleLogout();
+            }}
+          >
+            Logout
+          </button>
         ) : (
-          <GoogleLogin
-            clientId={GOOGLE_CLIENT_ID}
-            buttonText="Login"
-            onSuccess={props.handleLogin}
-            onFailure={(err) => console.log(err)}
-            className="NavBar-link NavBar-login"
-          />
+          <GoogleLogin onSuccess={handleLogin} onError={(err) => console.log(err)} />
         )}
+        <h1>Good luck on your project :)</h1>
+        <h2>What you need to change in this skeleton</h2>
+        {/* ... rest of your component */}
       </div>
-    </nav>
+      <nav className="NavBar-container">
+        <div className="NavBar-title u-inlineBlock">FeedMe</div>
+        <div className="NavBar-linkContainer u-inlineBlock">
+          <Link to="/" className="NavBar-link">
+            Home
+          </Link>
+          {userId && (
+            <Link to={`/profile/${userId}`} className="NavBar-link">
+              Profile
+            </Link>
+          )}
+          <Link to="/chat/" className="NavBar-link">
+            Chat
+          </Link>
+        </div>
+      </nav>
+    </GoogleOAuthProvider>
   );
 };
 

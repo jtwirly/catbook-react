@@ -5,6 +5,7 @@ import Feed from "./pages/Feed.js";
 import NotFound from "./pages/NotFound.js";
 import Profile from "./pages/Profile.js";
 import Chatbook from "./pages/Chatbook.js";
+import { jwtDecode } from 'jwt-decode';
 
 import { socket } from "../client-socket.js";
 
@@ -18,7 +19,7 @@ import "./App.css";
  * Define the "App" component as a function.
  */
 const App = () => {
-  const [userId, setUserId] = useState(null);
+  const [userId, setUserId] = useState(undefined);
 
   useEffect(() => {
     get("/api/whoami").then((user) => {
@@ -29,18 +30,18 @@ const App = () => {
     });
   }, []);
 
-  const handleLogin = (res) => {
-    const userToken = res.tokenObj.id_token;
+  const handleLogin = (credentialResponse) => {
+    const userToken = credentialResponse.credential;
+    const decodedCredential = jwtDecode(userToken);
+    console.log(`Logged in as ${decodedCredential.name}`);
     post("/api/login", { token: userToken }).then((user) => {
-      // the server knows we're logged in now
       setUserId(user._id);
-      console.log(user);
+      post("/api/initsocket", { socketid: socket.id });
     });
   };
 
   const handleLogout = () => {
-    console.log("Logged out successfully!");
-    setUserId(null);
+    setUserId(undefined);
     post("/api/logout");
   };
 
